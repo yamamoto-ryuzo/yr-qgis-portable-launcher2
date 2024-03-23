@@ -58,8 +58,6 @@ https://github.com/opengisch/qgis_excel_sync
 ### MOJXML Loader  
 https://github.com/MIERUNE/qgis-mojxml-plugin  
 ## その他  
-### Customize ToolBars  
-https://github.com/All4Gis/CustomToolBar  
 ### Select Themes  
 https://github.com/Amphibitus/selectThemes  
 ### (保留中)  
