@@ -1,0 +1,1 @@
+# yr-qgis-portable-launcher2
