@@ -1,6 +1,6 @@
 # ただいま大幅な見直し実施中
 # DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。
-[初期システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)
+[システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)
 
 # QGISランチャー
  QGIS3.34.4.bat を起動してください。
@@ -20,12 +20,6 @@
 　を/QGIS_portableを英数字のみからなうフォルダに設置してください。   
 　日本語を含むフォルダはエラーになります。  
   
-
-**（注意）**  
-　　/ProjectFiles/OpenData　の中身は容量の問題でグーグルドライで共有しているので下記からダウンロードしてください。  
-　　https://drive.google.com/drive/folders/1CdTkJd-HtvLOeJjtEOjinKCPFkVXYmCr?usp=sharing
-
-
 # 統一環境として組込済のプラグイン  
 ## 検索  
 ### Search Layers  
