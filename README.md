@@ -60,7 +60,9 @@ https://github.com/MIERUNE/qgis-mojxml-plugin
 ## その他  
 ### Select Themes  
 https://github.com/Amphibitus/selectThemes  
-### (保留中)  
+### QGIS-legendView  
+https://github.com/yamamoto-ryuzo/QGIS-legendView
+### EasyAttributeFilter  
 https://github.com/Orbitalnet-incs/EasyAttributeFilter  
 ### (保留中)  
 https://github.com/Orbitalnet-incs/SearchZmap  
