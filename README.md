@@ -1,5 +1,6 @@
 # ただいま大幅な見直し実施中
 # DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。
+[初期システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)
 
 # QGISランチャー
 
