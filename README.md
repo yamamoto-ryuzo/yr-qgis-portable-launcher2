@@ -1,23 +1,27 @@
-# ただいま大幅な見直し実施中
-# DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。
-[システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)
+# ただいま大幅な見直し実施中  
+# DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。  
+[システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)  
 
-# QGISランチャー
- QGIS3.34.4.bat を起動してください。
- /ProjectFiles/ProjectFile.qgs が起動します。
+# QGISランチャー  
+ ProjectFile.exe を起動してください。  
+ /ProjectFiles/ProjectFile.qgs が起動します。  
 
- 拡張子はLIZMAP連携のためQGSを利用しています。
+EXEはファイル名を変えることで、同じ名称のqgsファイルを起動します。  
+ 例）test.exe　に　変更すると　test.qgs が起動します  
+
+ ※拡張子はLIZMAP連携のためQGSを利用しています。
  
 （フォルダー構成）  
 　QGISポータブル版を私の趣味により統一環境として組込済のプラグインを含んでいます。  
-　WindowsのDOS.BATです。    
+　WindowsのProjectFile.exeです。    
   /QGIS_portable  
-　　QGIS3.34.4.BAT -----------------　ランチャー本体   
+　　ProjectFile.exe ----------------　ランチャー本体   
 　　/QGIS3.34.4/qgis --------------- QGIS本体  
 　　/QGIS3.34.4/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
 　　/ProjectFiles-------------------　初期設定がされたプロジェクトファイルを保存するフォルダ    
 　　/ProjectFiles/OpenData----------　プロジェクトファイルで利用しているオープンデータを保存するフォルダ  
-　を/QGIS_portableを英数字のみからなうフォルダに設置してください。   
+
+　を/QGIS_portableを英数字のみからなうフォルダに解凍してください。   
 　日本語を含むフォルダはエラーになります。  
   
 # 統一環境として組込済のプラグイン  
