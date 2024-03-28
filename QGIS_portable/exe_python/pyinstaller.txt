@@ -1,0 +1,6 @@
+pip install pyinstaller
+
+cd C:\QGIS_portable\exe_python
+pyinstaller QGIS.py --onefile --noconsole
+
+
