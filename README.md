@@ -23,6 +23,7 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 
 　を/QGIS_portableを英数字のみからなうフォルダに解凍してください。   
 　日本語を含むフォルダはエラーになります。  
+![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
 # 統一環境として組込済のプラグイン  
 ## 検索  
@@ -74,3 +75,4 @@ https://github.com/Orbitalnet-incs/SearchZmap
 　　
 #### ・補足事項  
     .BATの改行コードをWindows用にするため　.gitattributes　を設置 
+
