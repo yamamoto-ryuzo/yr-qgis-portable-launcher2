@@ -38,7 +38,7 @@ https://github.com/sourcepole/qgis-instantprint-plugin
 公開予定  
 ### (保留中)  
 公式プラグインでは日本語対応していません、下記リポジトリからダウンロードください。  
-https://github.com/yamamoto-ryuzo/yr-qgis-easyinstantprint-plugin  
+https://github.com/sourcepole/qgis-instantprint-plugin  
 ### (保留中)  
 https://github.com/Orbitalnet-incs/meshprint  
 ## レイヤー管理   
