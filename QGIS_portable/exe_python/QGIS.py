@@ -1,3 +1,5 @@
+import set_drive
+
 import os
 import sys
 import subprocess
@@ -31,6 +33,8 @@ def show_directory_contents():
     window.mainloop()
 
 def main():
+
+    set_drive.change_drive()
 
     # 実行ファイルのパスを取得
     exe_path = sys.executable
