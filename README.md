@@ -1,3 +1,5 @@
+# 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
+　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
 # ただいま大幅な見直し実施中  
 # DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。  
 [システム一式](https://1drv.ms/u/s!Am9UcJ606r_LgrkFLyqZ1NJCikxwWQ?e=pb3Vwa)  
