@@ -2,5 +2,3 @@ pip install pyinstaller
 
 cd C:\github\yr-qgis-portable-launcher2\QGIS_portable\exe_python
 pyinstaller ProjectFile.py --onefile --noconsole --distpath ../
-
-
