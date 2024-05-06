@@ -69,7 +69,21 @@ def read_qgis_project_file_from_config(file_name):
         return None
 
 def main():
-    set_drive.change_drive()
+
+    # 現在の作業ディレクトリをQ:ドライブに指定
+    # set_drive.change_drive() 
+    # 現在のフォルダを取得する
+    current_folder = os.getcwd()
+    # messagebox.showerror("現在のフォルダを取得する", current_folder)
+    # "/persistent:yes" オプションは、再起動後もドライブの割り当てを保持するためのものです
+    subprocess.run(["subst", "Q:", current_folder])
+    # ドライブの設定をユーザーに通知する
+    # messagebox.showerror("ドライブの設定", "Qドライブを設定しました。")
+    # カレントディレクトリを Q: ドライブに変更します。
+    os.chdir("Q:\\")
+
+    DRV_LTR = os.getcwd()  
+    # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
 
     # 実行ファイルのパスを取得
     exe_path = sys.executable

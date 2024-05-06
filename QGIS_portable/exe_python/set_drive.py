@@ -56,14 +56,14 @@ def change_drive():
         print(f"仮想ドライブに関連付けられたフォルダのファイル一覧:'{files_in_virtual_drive}'")
     else:
         print("仮想ドライブはマウントされていません")
-        subprocess.run(["subst", "Q:", current_folder])
+        # "/persistent:yes" は、再起動後もドライブの割り当てを保持するためのオプション
+        subprocess.run(["subst", "Q:", current_folder,"/persistent:yes"])
         print("Q ドライブに割り当てが完了しました")        
 
     if directory_contents == files_in_virtual_drive:
         print("Q ドライブはすでに割り当てられています")
         # カレントドライブをQドライブに変更
         change_current_drive('Q')
-
 
 if __name__ == "__main__":
     # 事前に Q ドライブが存在する場合は解除しておく
