@@ -53,6 +53,11 @@ def read_qgis_project_file_from_config(file_name):
             lines = f.readlines()
             qgis_project_file = None
             qgisconfig_folder = None
+            # 仮想ドライブの標準設定は　Q:ドライブ　とする。
+            VirtualDrive = "q:"
+            # QGISの実行フォルダの上書き
+            qgis_install_dir_ow = None
+
             for line in lines:
                 # コメント行を無視する
                 if line.startswith("#"):
@@ -60,38 +65,36 @@ def read_qgis_project_file_from_config(file_name):
                 if line.startswith("ProjectFile"):
                     # プロジェクトファイルのパスを取得
                     qgis_project_file = line.split("=")[1].strip()
+                    # messagebox.showerror("プロジェクトファイルのパス情報", qgis_project_file)
                 elif line.startswith("qgisconfig_folder"):
                     # QGIS 設定フォルダーのパスを取得
                     qgisconfig_folder = line.split("=")[1].strip()
-            return qgis_project_file, qgisconfig_folder
+                    # messagebox.showerror("QGIS 設定フォルダーのパス情報", qgisconfig_folder)
+                elif line.startswith("VirtualDrive"):
+                    # 稼働ドライブを取得
+                    VirtualDrive = line.split("=")[1].strip()
+                    # messagebox.showerror("仮想ドライブの設定情報", VirtualDrive)
+                elif line.startswith("qgis_install_dir_ow"):
+                    # QGISの実行フォルダの上書き
+                    qgis_install_dir_ow = line.split("=")[1].strip()
+                    # messagebox.showerror("仮想ドライブの設定情報の上書き", qgis_install_dir_ow)
+            return qgis_project_file, qgisconfig_folder ,VirtualDrive , qgis_install_dir_ow
     except Exception as e:
         print("設定ファイルの読み込み中にエラーが発生しました:", e)
         return None
 
 def main():
 
-    # 現在の作業ディレクトリをQ:ドライブに指定
-    # set_drive.change_drive() 
-    # 現在のフォルダを取得する
-    current_folder = os.getcwd()
-    # messagebox.showerror("現在のフォルダを取得する", current_folder)
-    # "/persistent:yes" オプションは、再起動後もドライブの割り当てを保持するためのものです
-    subprocess.run(["subst", "Q:", current_folder])
-    # ドライブの設定をユーザーに通知する
-    # messagebox.showerror("ドライブの設定", "Qドライブを設定しました。")
-    # カレントディレクトリを Q: ドライブに変更します。
-    os.chdir("Q:\\")
 
-    DRV_LTR = os.getcwd()  
-    # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
-
+    ############################
+    #   設定ファイルの読み込み   #
+    ############################
     # 実行ファイルのパスを取得
     exe_path = sys.executable
     # messagebox.showerror("実行ファイル", exe_path)
-
     # ファイル名を取得し、拡張子を除去
     file_name = os.path.splitext(os.path.basename(exe_path))[0]
-
+    
     # QGISのインストールフォルダを設定ファイルから読み込む
     qgis_install_dir = read_qgis_install_dir_from_config()
     if qgis_install_dir is None:
@@ -100,8 +103,35 @@ def main():
         return
     
     # QGISのプロジェクトファイルを設定ファイルから読み込む
-    qgis_project_file, qgisconfig_folder = read_qgis_project_file_from_config(file_name)
-    
+    qgis_project_file, qgisconfig_folder , VirtualDrive , qgis_install_dir_ow = read_qgis_project_file_from_config(file_name)
+    if qgis_install_dir_ow != None:
+        qgis_install_dir = qgis_install_dir_ow
+
+
+    ############################
+    #   仮想ドライブ環境の設定   #
+    ############################
+    # 一度仮想ドライブを削除
+    subprocess.run(["subst", "/d" , VirtualDrive])
+    # 現在の作業ディレクトリを VirtualDrive ドライブに指定
+    # set_drive.change_drive() 
+    # 現在のフォルダを取得する
+    current_folder = os.getcwd()
+    # messagebox.showerror("現在のフォルダを取得する", current_folder)
+    # "/persistent:yes" オプションは、再起動後もドライブの割り当てを保持するためのものです
+    subprocess.run(["subst",VirtualDrive, current_folder])
+    # ドライブの設定をユーザーに通知する
+    # messagebox.showerror("仮想ドライブの設定", VirtualDrive&"ライブを設定しました。")
+    # カレントディレクトリを VirtualDriveドライブに変更します。
+    os.chdir( VirtualDrive + "\\" )
+
+    DRV_LTR = os.getcwd()  
+    # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
+
+    ################
+    #   QGIS実行   #
+    ################
+
     # カレントフォルダをQGISのインストールフォルダに設定
     os.chdir(qgis_install_dir)
 
