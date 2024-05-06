@@ -1,0 +1,41 @@
+[general]
+name=Lizmap
+qgisMinimumVersion=3.16
+qgisMaximumVersion=3.99
+author=3Liz
+email=info@3liz.com
+description=Publish and share your QGIS maps on the Web via Lizmap Web Client, by 3liz.com
+about=With a few clicks, it's possible to publish and share your QGIS projects on the Web via Lizmap Web Client, by 3liz.com. QGIS Server is used in the background so all the symbology is kept. The edition forms in QGIS are also available. Demo : https://demo.lizmap.com and documentation : https://docs.lizmap.com and hosting solutions https://lizmap.com
+category=Web
+tags=online,server,web,webgis,webservice,webmapping,mobile,publication,wms,wfs,wps,internet,cloud
+
+homepage=https://docs.lizmap.com
+tracker=https://github.com/3liz/lizmap-plugin/issues
+repository=https://github.com/3liz/lizmap-plugin
+
+# Done automatically by qgis-plugin-ci
+version=4.3.9
+commitNumber=1
+commitSha1=74465ca71cabddae1af2850600f9fe77724e3397
+dateTime=2024-04-26T10:24:23Z
+changelog=
+ Version 4.3.9:
+ * Follow up previous version
+
+ Version 4.3.8:
+ * Improve workflow when publishing a project for the first time
+ * Add a new "Browser media" button
+ * Allow HTML template for the Lizmap tooltip feature (Lizmap Web Client 3.8 feature, funded by PNR Ballons des Vosges)
+ * Check for editing capabilities before to warn for Z or M values lost in Lizmap Web Client
+
+ Version 4.3.7:
+ * Remove FTP support from the plugin
+ * Check for duplicated label within a layer legend
+
+
+# End of qgis-plugin-ci
+
+icon=resources/icons/icon.png
+experimental=False
+deprecated=False
+server=False
