@@ -1,10 +1,11 @@
-# 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
+# 初めての人でも扱いやすいポータブルQGIS環境の構築
+## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
 　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
-# ただいま大幅な見直し実施中  
-# DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。  
+## ただいま大幅な見直し実施中  
+## DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。  
 [システム一式 ver20240506](https://1drv.ms/u/c/cbbfeab49e70546f/ETPFwKYcM4ZFuLNKkNEqeZABi0fbk1dn292ZxxMLrRsARg?e=fBD1WD)  
 
-# QGISランチャー  
+## QGISランチャー  
  ProjectFile.exe を起動してください。  
  /ProjectFiles/ProjectFile.qgs が起動します。  
 
@@ -27,8 +28,8 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 　日本語を含むフォルダはエラーになります。  
 ![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
-# 統一環境として組込済のプラグイン  
-## 検索  
+## 統一環境として組込済のプラグイン  
+### 検索  
 ### Search Layers  
 https://github.com/NationalSecurityAgency/qgis-searchlayers-plugin  
 ### GEO_search  
