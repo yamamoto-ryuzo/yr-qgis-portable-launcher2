@@ -20,12 +20,12 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 　WindowsのProjectFile.exeです。    
   /QGIS_portable  
 　　ProjectFile.exe ----------------　ランチャー本体   
-　　/QGIS3.34.4/qgis --------------- QGIS本体  
-　　/QGIS3.34.4/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
+　　/QGIS各バージョン/qgis --------------- QGIS本体  
+　　/QGIS各バージョン/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
 　　/ProjectFiles-------------------　初期設定がされたプロジェクトファイルを保存するフォルダ    
 　　/ProjectFiles/OpenData----------　プロジェクトファイルで利用しているオープンデータを保存するフォルダ  
 
-　を/QGIS_portableを英数字のみからなうフォルダに解凍してください。   
+　を/QGIS_portableを英数字のみからなるフォルダに解凍してください。   
 　日本語を含むフォルダはエラーになります。  
 ![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
