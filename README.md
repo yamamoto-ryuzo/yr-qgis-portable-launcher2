@@ -3,8 +3,8 @@
 　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
 ## ただいま大幅な見直し実施中  
 ## DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。 
-[システム一式 ver3.34.8](https://1drv.ms/u/c/cbbfeab49e70546f/EUBx0GqMvbNBgcDbWhdHy4cBjpGuXLGYzPh1cE952tUFeg?e=QgoXg9)  
-[システム一式 ver3.34.4](https://1drv.ms/u/c/cbbfeab49e70546f/ETPFwKYcM4ZFuLNKkNEqeZABi0fbk1dn292ZxxMLrRsARg?e=fBD1WD)  
+[システム一式 ver3.38.1](https://1drv.ms/u/c/cbbfeab49e70546f/EYyJqLhVbXNFufPDmemiWhABSOS7PdZqyGN_K_YfKuRKIg?e=N0973F)  
+[システム一式 LTR ver3.34.8](https://1drv.ms/u/c/cbbfeab49e70546f/EUBx0GqMvbNBgcDbWhdHy4cBjpGuXLGYzPh1cE952tUFeg?e=QgoXg9)  
 
 ## QGISランチャー  
  ProjectFile.exe を起動してください。  
