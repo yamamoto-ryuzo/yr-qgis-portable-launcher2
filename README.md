@@ -65,6 +65,8 @@ https://github.com/minorua/Qgis2threejs
 https://github.com/Project-PLATEAU/plateau-qgis-plugin  
 ### ExcelSync  
 https://github.com/opengisch/qgis_excel_sync  
+### Spreadsheet Layers  
+https://github.com/camptocamp/QGIS-SpreadSheetLayers  
 ### MOJXML Loader  
 https://github.com/MIERUNE/qgis-mojxml-plugin  
 ## その他  
