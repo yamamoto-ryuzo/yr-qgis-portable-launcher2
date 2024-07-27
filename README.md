@@ -1,10 +1,12 @@
-# 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
+# 初めての人でも扱いやすいポータブルQGIS環境の構築
+## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
 　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
-# ただいま大幅な見直し実施中  
-# DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。  
-[システム一式 ver20240506](https://1drv.ms/u/c/cbbfeab49e70546f/ETPFwKYcM4ZFuLNKkNEqeZABi0fbk1dn292ZxxMLrRsARg?e=fBD1WD)  
+## ただいま大幅な見直し実施中  
+## DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。 
+[システム一式 ver3.38.1](https://1drv.ms/u/c/cbbfeab49e70546f/EYyJqLhVbXNFufPDmemiWhABSOS7PdZqyGN_K_YfKuRKIg?e=N0973F)  
+[システム一式 LTR ver3.34.8](https://1drv.ms/u/c/cbbfeab49e70546f/EUBx0GqMvbNBgcDbWhdHy4cBjpGuXLGYzPh1cE952tUFeg?e=QgoXg9)  
 
-# QGISランチャー  
+## QGISランチャー  
  ProjectFile.exe を起動してください。  
  /ProjectFiles/ProjectFile.qgs が起動します。  
 
@@ -18,17 +20,17 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 　WindowsのProjectFile.exeです。    
   /QGIS_portable  
 　　ProjectFile.exe ----------------　ランチャー本体   
-　　/QGIS3.34.4/qgis --------------- QGIS本体  
-　　/QGIS3.34.4/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
+　　/QGIS各バージョン/qgis --------------- QGIS本体  
+　　/QGIS各バージョン/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
 　　/ProjectFiles-------------------　初期設定がされたプロジェクトファイルを保存するフォルダ    
 　　/ProjectFiles/OpenData----------　プロジェクトファイルで利用しているオープンデータを保存するフォルダ  
 
-　を/QGIS_portableを英数字のみからなうフォルダに解凍してください。   
+　を/QGIS_portableを英数字のみからなるフォルダに解凍してください。   
 　日本語を含むフォルダはエラーになります。  
 ![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
-# 統一環境として組込済のプラグイン  
-## 検索  
+## 統一環境として組込済のプラグイン  
+### 検索  
 ### Search Layers  
 https://github.com/NationalSecurityAgency/qgis-searchlayers-plugin  
 ### GEO_search  
