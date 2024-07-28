@@ -47,6 +47,7 @@ def read_qgis_install_dir_from_config():
         print("設定ファイルの読み込み中にエラーが発生しました:", e)
         return None
 
+# プロジェクトファイルの起動用コンフィグ読込設定
 def read_qgis_project_file_from_config(file_name):
     try:
         with open(file_name+".config", "r", encoding="utf-8") as f:
@@ -70,6 +71,7 @@ def read_qgis_project_file_from_config(file_name):
                     # QGIS 設定フォルダーのパスを取得
                     qgisconfig_folder = line.split("=")[1].strip()
                     # messagebox.showerror("QGIS 設定フォルダーのパス情報", qgisconfig_folder)
+                # カスタム仮想ドライブの読込
                 elif line.startswith("VirtualDrive"):
                     # 稼働ドライブを取得
                     VirtualDrive = line.split("=")[1].strip()
@@ -82,6 +84,18 @@ def read_qgis_project_file_from_config(file_name):
     except Exception as e:
         print("設定ファイルの読み込み中にエラーが発生しました:", e)
         return None
+
+# フォルダが存在するかどうかの確認
+def check_folder_exists(folder_path):
+    if os.path.exists(folder_path):
+        if os.path.isdir(folder_path):
+            return True
+        else:
+            # messagebox.showerror("エラー", f"'{folder_path}' は存在しますが、フォルダではありません。")
+            return False
+    else:
+        # messagebox.showerror("エラー", f"フォルダ '{folder_path}' は存在しません。")
+        return False
 
 def main():
 
@@ -151,17 +165,23 @@ def main():
         shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
         # messagebox.showerror("profilesフォルダを複写しました", portable_profile_path)
 
-    ########################################
-    # ポータブル版のBATをpythonに修正した起動 #
-    ########################################
+    #####################
+    # ポータブル版の起動 #
+    ####################
     # 現在の作業フォルダを取得
     DRV_LTR = os.getcwd()
     # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
     # QGISのインストールパスを設定
     OSGEO4W_ROOT = os.path.join(DRV_LTR, 'qgis')
+    # QGISのタイプとして最新版とLTRを自動判定
+    folder_path = os.path.join(OSGEO4W_ROOT, 'apps', 'qgis-ltr')
+    if check_folder_exists(folder_path):
+        QGIS_Type='qgis-ltr'
+    else:
+        QGIS_Type='qgis'
     # messagebox.showerror("QGISフォルダのパス", OSGEO4W_ROOT) 
     # システムパスにQGIS関連のフォルダを追加
-    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', 'qgis-ltr', 'bin')
+    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', QGIS_Type, 'bin')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'bin')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', 'grass')
@@ -174,10 +194,10 @@ def main():
     # 標準のプロファイルは「portable」   
     if qgis_project_file is None:
         # 引数がない場合は新しい空のプロジェクトでQGISを起動
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', 'qgis-ltr.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable'])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable'])
     else:
         # 引数がある場合は指定されたプロジェクトファイルを開く
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', 'qgis-ltr.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable' ,'--project', qgis_project_file])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable' ,'--project', qgis_project_file])
 
 if __name__ == "__main__":
     main()
