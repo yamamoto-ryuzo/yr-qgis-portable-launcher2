@@ -2,11 +2,16 @@ import set_drive
 
 import os
 import sys
+import keyboard
 import shutil
 import subprocess
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
+
+# グローバル変数の定義
+# portable_profileを複写する場合は　profile = 1　にイベントで変更
+profile = 0
 
 def list_current_directory_contents():
     try:
@@ -97,9 +102,17 @@ def check_folder_exists(folder_path):
         # messagebox.showerror("エラー", f"フォルダ '{folder_path}' は存在しません。")
         return False
 
+# 'r'キーが押されたイベントで実行
+def on_r_press(event):
+    # グローバル変数を使用するために宣言
+    global profile  
+    profile = 1
+
 def main():
-
-
+    # グローバル変数を使用するために宣言
+    global profile  
+    # ESCキーが押されたときにon_r_press関数を呼び出す
+    keyboard.on_press_key("r", on_r_press)
     ############################
     #   設定ファイルの読み込み   #
     ############################
@@ -149,6 +162,9 @@ def main():
     # カレントフォルダをQGISのインストールフォルダに設定
     os.chdir(qgis_install_dir)
 
+    #############################
+    # portableプロファイルを設定 #
+    ############################
     # 予定のユーザープロファイルにportableフォルダーが存在しない場合は標準のqgisconfigを複写する
     # 実行で使いたいportableフォルダのパス
     # 環境変数を含むことを前提とする
@@ -160,7 +176,8 @@ def main():
     source_path = os.path.abspath('./qgisconfig')
     # messagebox.showerror("配布用・ポータブルprofilesフォルダ", source_path)        
     # ポータブルプロファイルが存在しない場合にコピーする
-    if not os.path.exists(os.path.join(portable_profile_path,'profiles','portable')):
+    # profile == 1(キーボード[r]が押されていれば)コピー
+    if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1):
         # 上書き許可
         shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
         # messagebox.showerror("profilesフォルダを複写しました", portable_profile_path)

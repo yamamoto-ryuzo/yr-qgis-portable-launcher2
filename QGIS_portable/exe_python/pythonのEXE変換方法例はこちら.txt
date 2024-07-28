@@ -1,5 +1,7 @@
 # インストール
 pip install pyinstaller
+pip install keyboard
+
 # アップデートがあるとき
 python.exe -m pip install --upgrade pip
 
