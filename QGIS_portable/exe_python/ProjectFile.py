@@ -102,17 +102,21 @@ def check_folder_exists(folder_path):
         # messagebox.showerror("エラー", f"フォルダ '{folder_path}' は存在しません。")
         return False
 
-# 'r'キーが押されたイベントで実行
-def on_r_press(event):
+# 特定のキーが押されたイベントで実行
+def on_key_press(event):
     # グローバル変数を使用するために宣言
     global profile  
     profile = 1
 
+
+####################
+#  MAINプログラム  #
+###################
 def main():
     # グローバル変数を使用するために宣言
     global profile  
-    # ESCキーが押されたときにon_r_press関数を呼び出す
-    keyboard.on_press_key("r", on_r_press)
+    # "shift"キーが押されたときにon_key_press関数を呼び出す
+    keyboard.on_press_key("shift", on_key_press)
     ############################
     #   設定ファイルの読み込み   #
     ############################
