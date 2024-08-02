@@ -117,6 +117,10 @@ def main():
     global profile  
     # "shift"キーが押されたときにon_key_press関数を呼び出す
     keyboard.on_press_key("shift", on_key_press)
+    # "r"キーが押されたときにon_key_press関数を呼び出す
+    keyboard.on_press_key("r", on_key_press)
+    # "crtl"キーが押されたときにon_key_press関数を呼び出す
+    keyboard.on_press_key("crtl", on_key_press)
     ############################
     #   設定ファイルの読み込み   #
     ############################
