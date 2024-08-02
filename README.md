@@ -9,7 +9,7 @@
 ## QGISランチャー  
  ProjectFile.exe を起動してください。  
  /ProjectFiles/ProjectFile.qgs が起動します。  
- 'r'キーを押しながら起動すると、プロファイルをリセットできます。  
+ 'shift'キーを押しながら起動すると、プロファイルをリセットできます。
 
 EXEはファイル名を変えることで、同じ名称のqgsファイルを起動します。  
  例）test.exe　に　変更すると　test.qgs が起動します  
