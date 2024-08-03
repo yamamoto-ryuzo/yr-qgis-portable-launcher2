@@ -14,11 +14,18 @@ tracker=https://github.com/3liz/lizmap-plugin/issues
 repository=https://github.com/3liz/lizmap-plugin
 
 # Done automatically by qgis-plugin-ci
-version=4.3.19
+version=4.3.20
 commitNumber=1
-commitSha1=022c5db897351ddbe91cef5b06bbc91c4ded8d87
-dateTime=2024-07-02T15:42:00Z
+commitSha1=80d2b429f64b1aedcbd9b37a4a09036d24948125
+dateTime=2024-08-02T09:48:35Z
 changelog=
+ Version 4.3.20:
+ * New option to disable the permalink automatically. Latest releases of Lizmap Web Client are needed
+ * UX - Add SQL cast example in the tooltip for invalid PK
+ * Do not display `-pre` packages for some customers
+ * Add log if the relation was not found when generating the tooltip
+ * Fix vector layer not having a renderer for checking duplicated rules
+
  Version 4.3.19:
  * Fix a Python error when the dialog is hidden to display the message bar
  * Add again the message bar about the project file generation
@@ -30,13 +37,6 @@ changelog=
  * Restore previous folder used from the QGS file
  * Training project - Make the project more unique using the username
  * Show unknown file size if equal to -1, for instance AVIF
-
- Version 4.3.17:
- * OGC validity on group - Add help about where to change it
- * CFG - Do not export old QGIS Server version in CFG file
- * UX - Display release candidate link if available in the online JSON file
- * Remove all occurrences of `zmax` and `zmin` in the source code #586
- * Fix loading of the plugin if no webdav is available fix #584
 
 
 # End of qgis-plugin-ci
