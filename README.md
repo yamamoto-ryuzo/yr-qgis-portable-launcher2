@@ -31,7 +31,7 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 ![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
 ## 統一環境として組込済のプラグイン  
-### MMGQGIS
+### MMQGIS
 [https://plugins.qgis.org/plugins/mmqgis/#plugin-about ](https://michaelminn.com/linux/mmqgis/)   
 ### 検索  
 ### Search Layers  
