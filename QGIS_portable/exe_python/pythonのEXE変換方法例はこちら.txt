@@ -1,4 +1,8 @@
 # インストール
+python本体
+https://www.python.org/downloads/
+インストール時【Add python.exe to PATH】にチャックを入れる
+
 pip install pyinstaller
 pip install keyboard
 

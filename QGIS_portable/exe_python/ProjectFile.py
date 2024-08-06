@@ -120,7 +120,10 @@ def main():
     # "r"キーが押されたときにon_key_press関数を呼び出す
     keyboard.on_press_key("r", on_key_press)
     # "crtl"キーが押されたときにon_key_press関数を呼び出す
-    keyboard.on_press_key("crtl", on_key_press)
+    keyboard.on_press_key("ctrl", on_key_press)
+    # "alt"キーが押されたときにon_key_press関数を呼び出す
+    keyboard.on_press_key("alt", on_key_press)
+
     ############################
     #   設定ファイルの読み込み   #
     ############################
@@ -170,9 +173,9 @@ def main():
     # カレントフォルダをQGISのインストールフォルダに設定
     os.chdir(qgis_install_dir)
 
-    #############################
-    # portableプロファイルを設定 #
-    ############################
+    ##############################
+    # portableプロファイルを初期化 #
+    ##############################
     # 予定のユーザープロファイルにportableフォルダーが存在しない場合は標準のqgisconfigを複写する
     # 実行で使いたいportableフォルダのパス
     # 環境変数を含むことを前提とする
@@ -186,10 +189,12 @@ def main():
     # ポータブルプロファイルが存在しない場合にコピーする
     # profile == 1(キーボード[r]が押されていれば)コピー
     if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1):
-        # 上書き許可
+        # いったん削除,エラーは無視
+        shutil.rmtree(portable_profile_path,ignore_errors=False)
+        # 上書き許可でコピー
         shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
-        # messagebox.showerror("profilesフォルダを複写しました", portable_profile_path)
-
+        #messagebox.showerror("profilesフォルダを初期化しました", portable_profile_path)
+ 
     #####################
     # ポータブル版の起動 #
     ####################
