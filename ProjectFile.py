@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # インストール
 # python本体
 # https://www.python.org/downloads/
@@ -6,15 +8,19 @@
 # pip install keyboard
 # アップデートがあるとき
 # python.exe -m pip install --upgrade pip
+
+# EXE作成
 #　ディレクトリは適宜変更
-# cd C:\Users\ryu\マイドライブ（yamamoto.ryuzou@gmail.com）\github\yr-qgis-portable-launcher2\QGIS_portable\exe_python
-# pyinstaller ProjectFile.py --onefile --noconsole --distpath ../
+# cd C:\Users\ryu\マイドライブ（yamamoto.ryuzou@gmail.com）\github\yr-qgis-portable-launcher2
+# pyinstaller ProjectFile.py --onefile --noconsole --distpath ./
 #　完成したらC:\GoogleDrive\github\yr-qgis-portable-launcher2\QGIS_portable\ProjectFile.exeとかメッセージが出て完成
   
 
 #デバッグ時の注意事項
 #実行ファイル名は必ず　python.exe　となるので、環境設定は　python.config が必ず必要
 #プロジェクトファイルは、そのため python.qgs となりエラーで問題なし
+
+import auth
 
 import set_drive
 
@@ -25,7 +31,11 @@ import shutil
 import subprocess
 import tkinter as tk
 from tkinter import scrolledtext
-from tkinter import messagebox
+from tkinter import simpledialog, messagebox
+import configparser
+
+
+import configparser
 
 # グローバル変数の定義
 # portable_profileを複写する場合は　profile = 1　にイベントで変更
@@ -249,4 +259,13 @@ def main():
         subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable' ,'--project', qgis_project_file])
 
 if __name__ == "__main__":
-    main()
+    ################
+    #  認証を実施   #
+    ################
+    logged_in_user = auth.run_login()
+    if logged_in_user:
+        print(f"ログインに成功しました。ユーザー名: {logged_in_user}")
+        main()
+    else:
+        print("ログインに失敗しました。")
+   

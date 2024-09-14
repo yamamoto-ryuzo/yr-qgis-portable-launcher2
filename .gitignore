@@ -2,3 +2,4 @@
 /ProjectFiles/
 .venv
 __pycache__
+build
