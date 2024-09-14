@@ -1,3 +1,21 @@
+# インストール
+# python本体
+# https://www.python.org/downloads/
+# インストール時【Add python.exe to PATH】にチャックを入れる
+# pip install pyinstaller
+# pip install keyboard
+# アップデートがあるとき
+# python.exe -m pip install --upgrade pip
+#　ディレクトリは適宜変更
+# cd C:\Users\ryu\マイドライブ（yamamoto.ryuzou@gmail.com）\github\yr-qgis-portable-launcher2\QGIS_portable\exe_python
+# pyinstaller ProjectFile.py --onefile --noconsole --distpath ../
+#　完成したらC:\GoogleDrive\github\yr-qgis-portable-launcher2\QGIS_portable\ProjectFile.exeとかメッセージが出て完成
+  
+
+#デバッグ時の注意事項
+#実行ファイル名は必ず　python.exe　となるので、環境設定は　python.config が必ず必要
+#プロジェクトファイルは、そのため python.qgs となりエラーで問題なし
+
 import set_drive
 
 import os
@@ -132,6 +150,7 @@ def main():
     # messagebox.showerror("実行ファイル", exe_path)
     # ファイル名を取得し、拡張子を除去
     file_name = os.path.splitext(os.path.basename(exe_path))[0]
+    # messagebox.showerror("実行ファイル名", file_name)
     
     # QGISのインストールフォルダを設定ファイルから読み込む
     qgis_install_dir = read_qgis_install_dir_from_config()

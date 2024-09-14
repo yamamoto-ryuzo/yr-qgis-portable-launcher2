@@ -1,2 +1,4 @@
 /QGIS*
 /ProjectFiles/
+.venv
+__pycache__
