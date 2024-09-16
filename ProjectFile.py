@@ -40,6 +40,10 @@ import configparser
 # グローバル変数の定義
 # portable_profileを複写する場合は　profile = 1　にイベントで変更
 profile = 0
+username = ''
+UserRole = ''
+customUI = ''
+setting = ''
 
 def list_current_directory_contents():
     try:
@@ -108,11 +112,11 @@ def read_qgis_project_file_from_config(file_name):
                 elif line.startswith("VirtualDrive"):
                     # 稼働ドライブを取得
                     VirtualDrive = line.split("=")[1].strip()
-                    # messagebox.showerror("仮想ドライブの設定情報", VirtualDrive)
+                    print (f"仮想ドライブの設定情報：{VirtualDrive}")
                 elif line.startswith("qgis_install_dir_ow"):
                     # QGISの実行フォルダの上書き
                     qgis_install_dir_ow = line.split("=")[1].strip()
-                    # messagebox.showerror("仮想ドライブの設定情報の上書き", qgis_install_dir_ow)
+                    print (f"仮想ドライブの設定情報の上書き：{qgis_install_dir_ow}")
             return qgis_project_file, qgisconfig_folder ,VirtualDrive , qgis_install_dir_ow
     except Exception as e:
         print("設定ファイルの読み込み中にエラーが発生しました:", e)
@@ -157,18 +161,20 @@ def main():
     ############################
     # 実行ファイルのパスを取得
     exe_path = sys.executable
-    # messagebox.showerror("実行ファイル", exe_path)
+    print (f"実行ファイル：{exe_path}")
     # ファイル名を取得し、拡張子を除去
     file_name = os.path.splitext(os.path.basename(exe_path))[0]
-    # messagebox.showerror("実行ファイル名", file_name)
+    print(f"実行ファイル名：{file_name}")
     
     # QGISのインストールフォルダを設定ファイルから読み込む
     qgis_install_dir = read_qgis_install_dir_from_config()
     if qgis_install_dir is None:
         error_message = "QGISのインストールフォルダが【exe.config】から読み込めませんでした。"
-        # messagebox.showerror("エラー", error_message)
+        messagebox.showerror("エラー", error_message)
         return
     
+    # 通常は　　　　Projyect.config
+    # デバック時は　python.config となるので注意！
     # QGISのプロジェクトファイルを設定ファイルから読み込む
     qgis_project_file, qgisconfig_folder , VirtualDrive , qgis_install_dir_ow = read_qgis_project_file_from_config(file_name)
     if qgis_install_dir_ow != None:
@@ -184,16 +190,16 @@ def main():
     # set_drive.change_drive() 
     # 現在のフォルダを取得する
     current_folder = os.getcwd()
-    # messagebox.showerror("現在のフォルダを取得する", current_folder)
+    print (f"現在のフォルダを取得する", current_folder)
     # "/persistent:yes" オプションは、再起動後もドライブの割り当てを保持するためのものです
     subprocess.run(["subst",VirtualDrive, current_folder])
     # ドライブの設定をユーザーに通知する
-    # messagebox.showerror("仮想ドライブの設定", VirtualDrive&"ライブを設定しました。")
+    print (f"仮想ドライブの設定：{VirtualDrive}ライブを設定しました。")
     # カレントディレクトリを VirtualDriveドライブに変更します。
     os.chdir( VirtualDrive + "\\" )
 
     DRV_LTR = os.getcwd()  
-    # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
+    print (f"現在の作業フォルダのパス：{DRV_LTR}")  
 
     ################
     #   QGIS実行   #
@@ -211,10 +217,10 @@ def main():
     # 環境変数 %APPDATA%を含むフォルダのパス
     # 環境変数を展開して実際のパスに変換する
     portable_profile_path = os.path.expandvars(qgisconfig_folder)
-    # messagebox.showerror("実行・ポータブルprofilesフォルダ", portable_profile_path)  
+    print (f"実行・ポータブルprofilesフォルダ:{portable_profile_path}")  
 
     source_path = os.path.abspath('./qgisconfig')
-    # messagebox.showerror("配布用・ポータブルprofilesフォルダ", source_path)        
+    print (f"配布用・ポータブルprofilesフォルダ:{source_path}")        
     # ポータブルプロファイルが存在しない場合にコピーする
     # profile == 1(キーボード[r]が押されていれば)コピー
     if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1):
@@ -222,14 +228,14 @@ def main():
         shutil.rmtree(portable_profile_path,ignore_errors=False)
         # 上書き許可でコピー
         shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
-        #messagebox.showerror("profilesフォルダを初期化しました", portable_profile_path)
+        print (f"profilesフォルダを初期化しました：{portable_profile_path}")
  
     #####################
     # ポータブル版の起動 #
     ####################
     # 現在の作業フォルダを取得
     DRV_LTR = os.getcwd()
-    # messagebox.showerror("現在の作業フォルダのパス", DRV_LTR)  
+    print (f"現在の作業フォルダのパス DRV_LTR：{DRV_LTR}")  
     # QGISのインストールパスを設定
     OSGEO4W_ROOT = os.path.join(DRV_LTR, 'qgis')
     # QGISのタイプとして最新版とLTRを自動判定
@@ -238,33 +244,47 @@ def main():
         QGIS_Type='qgis-ltr'
     else:
         QGIS_Type='qgis'
-    # messagebox.showerror("QGISフォルダのパス", OSGEO4W_ROOT) 
+    print ("QGISフォルダのパス", OSGEO4W_ROOT) 
     # システムパスにQGIS関連のフォルダを追加
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', QGIS_Type, 'bin')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'bin')
     os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', 'grass')
+    # PYTHONPATH環境変数を追加
+    #if 'PYTHONPATH' in os.environ:
+    #    os.environ['PYTHONPATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'python')
+    #else:
+    #    os.environ['PYTHONPATH'] = os.path.join(OSGEO4W_ROOT, 'python')
+    # PYQGIS_STARTUP環境変数に startup.py のパスを追加
+    #if 'PYQGIS_STARTUP' in os.environ:
+    #    os.environ['PYQGIS_STARTUP'] += os.pathsep + os.path.join(DRV_LTR, 'processing','scripts')
+    #else:
+    #    os.environ['PYQGIS_STARTUP'] = os.path.join(DRV_LTR, 'processing','scripts')
     # コマンドライン引数をチェックしてQGISを起動
-    # messagebox.showerror("プロジェクトファイルのパス", qgis_project_file)  
-    # messagebox.showerror("profilesフォルダ", portable_profile_path)  
+    print (f"プロジェクトファイルのパス：{qgis_project_file}")  
+    print (f"profilesフォルダ：{portable_profile_path}")  
 
     # 9.6.1. コマンドラインと環境変数
     # https://docs.qgis.org/3.34/ja/docs/user_manual/introduction/qgis_configuration.html#command-line-and-environment-variables  
     # 標準のプロファイルは「portable」   
     if qgis_project_file is None:
         # 引数がない場合は新しい空のプロジェクトでQGISを起動
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable'])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI ,'--profiles-path', portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
     else:
         # 引数がある場合は指定されたプロジェクトファイルを開く
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--profiles-path', portable_profile_path , '--profile', 'portable' ,'--project', qgis_project_file])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path', portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' ,'--project', qgis_project_file])
 
 if __name__ == "__main__":
     ################
     #  認証を実施   #
     ################
-    logged_in_user = auth.run_login()
-    if logged_in_user:
-        print(f"ログインに成功しました。ユーザー名: {logged_in_user}")
+    username,UserRole = auth.run_login()
+    # 環境変数などの設定
+    setting = '../ini/qgis_global_settings.ini'
+    # ユーザーインファーフェイスのカスタマイズ
+    customUI = '../ini/' + UserRole + 'UI_customization.ini'
+    if username:
+        print(f"ログインに成功しました。ユーザー名: {username}")
         main()
     else:
         print("ログインに失敗しました。")

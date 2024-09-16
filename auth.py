@@ -3,6 +3,7 @@ from tkinter import messagebox
 import configparser
 import sys
 import os
+import json
 
 class LoginApp:
     def __init__(self, master):
@@ -13,6 +14,7 @@ class LoginApp:
         self.login_attempts = 0
         self.max_attempts = 10
         self.logged_in_user = None
+        self.user_role = None
 
         tk.Label(self.master, text="ユーザー名:").pack()
         self.username_entry = tk.Entry(self.master)
@@ -47,28 +49,30 @@ class LoginApp:
         entered_username = self.username_entry.get()
         entered_password = self.password_entry.get()
         
-        config = configparser.ConfigParser()
-        config.read('auth.config')
+        with open('auth.config', 'r') as config_file:
+            config = json.load(config_file)
         
-        if 'credentials' in config:
-            credentials = config['credentials']
-            if entered_username in credentials and credentials[entered_username] == entered_password:
-                messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!")
+        users = config.get('users', [])
+        valid_user = False
+        for user in users:
+            if user['username'] == entered_username and user['password'] == entered_password:
+                messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {user['UserRole']}です。")
                 self.logged_in_user = entered_username
+                self.user_role = user['UserRole']
+                valid_user = True
                 self.master.quit()
+                break
+        
+        if not valid_user:
+            self.login_attempts += 1
+            remaining_attempts = self.max_attempts - self.login_attempts
+            if remaining_attempts > 0:
+                messagebox.showerror("ログイン失敗", f"ユーザー名またはパスワードが無効です。\n残り試行回数: {remaining_attempts}")
+                self.clear_entries()
             else:
-                self.login_attempts += 1
-                remaining_attempts = self.max_attempts - self.login_attempts
-                if remaining_attempts > 0:
-                    messagebox.showerror("ログイン失敗", f"ユーザー名またはパスワードが無効です。\n残り試行回数: {remaining_attempts}")
-                    self.clear_entries()
-                else:
-                    messagebox.showerror("ログイン失敗", "試行回数の上限に達しました。プログラムを終了します。")
-                    self.master.quit()
-                    sys.exit()
-        else:
-            messagebox.showerror("設定エラー", "設定ファイルに認証情報セクションが見つかりません")
-            self.clear_entries()
+                messagebox.showerror("ログイン失敗", "試行回数の上限に達しました。プログラムを終了します。")
+                self.master.quit()
+                sys.exit()
 
     def clear_entries(self):
         self.username_entry.delete(0, tk.END)
@@ -78,19 +82,22 @@ class LoginApp:
     def get_logged_in_user(self):
         return self.logged_in_user
 
+    def get_user_role(self):
+        return self.user_role
+
 def run_login():
     if not os.path.exists('auth.config'):
-        return "default_user"  # ファイルが存在しない場合のデフォルトユーザー名
+        return "free", "Administrator"  # ファイルが存在しない場合のデフォルトユーザー名と役割
     
     root = tk.Tk()
     app = LoginApp(root)
     root.mainloop()
-    return app.get_logged_in_user()
+    return app.get_logged_in_user(), app.get_user_role()
 
 # メイン処理
 if __name__ == "__main__":
-    logged_in_user = run_login()
+    logged_in_user, user_role = run_login()
     if logged_in_user:
-        print(f"ログインに成功しました。ユーザー名: {logged_in_user}")
+        print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限は {user_role}です。")
     else:
         print("ログインに失敗しました。")
