@@ -3,11 +3,6 @@
 ![image](https://github.com/user-attachments/assets/79b88d27-41c2-4646-a6f9-688945db4efd)  
 　詳細は後日作りますが、とりあえず、ユーザー名は「qgis」です。  
 　その他の認証は以下としています。「auth.config」ファイルを見ていください。削除すると認証を不要になります。  
-
-- 起動.EXEファイルによる、指定プロジェクトファイルの起動  
-- UIカスタマイズによる、権限別のUI設定   
-- startup.pyによる、権限別のレイヤ設定  
-
 　　![image](https://github.com/user-attachments/assets/cacaf744-1e22-4f73-aa0d-fa756d83d74b)
 
 ## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
@@ -18,6 +13,9 @@
 [システム一式 LTR ver3.34.8](https://1drv.ms/u/c/cbbfeab49e70546f/EUBx0GqMvbNBgcDbWhdHy4cBjpGuXLGYzPh1cE952tUFeg?e=QgoXg9)  
 
 ## QGISランチャーコンセプト（作成中　2024/09/16）
+- 起動.EXEファイルによる、指定プロジェクトファイルの起動  
+- UIカスタマイズによる、権限別のUI設定   
+- startup.pyによる、権限別のレイヤ設定  
 ![image](https://github.com/user-attachments/assets/20c4a48d-7de1-49c4-9e45-f1da5e1fd8af)
 ## QGISランチャー
  ProjectFile.exe を起動してください。  
