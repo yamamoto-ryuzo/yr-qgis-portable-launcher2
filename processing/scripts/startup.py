@@ -6,11 +6,29 @@
 
 from qgis.core import QgsProject, QgsEditorWidgetSetup
 from qgis.utils import iface
+from PyQt5.QtWidgets import QMessageBox
+from qgis.core import QgsExpressionContextUtils
 import os
 
-def on_project_open():
-    # プロジェクトが開かれた後に実行したいコード
-    set_all_layers_readonly()
+def on_project_read():
+    # プロジェクトファイルの読み込み開始
+    pass
+
+def on_render_complete():
+    # マップキャンバスの描画完了
+    # プロジェクトが本当に読み込まれていない場合があるため、時間稼ぎが必要であり以下のメッセージ表示は削除しないこと
+    # QGISの変数はすべて小文字であることに注意
+    UserRole_value = QgsExpressionContextUtils.globalScope().variable('userrole')
+    QMessageBox.information(None, "startup.py", "プロジェクトの読み込みが完了しました。\n初期設定を開始します。")
+    print (f"変数　UserRole：{UserRole_value}")
+    if UserRole_value == 'Viewer':
+        set_all_layers_readonly()
+    #QMessageBox.information(None, "startup.py", "プロジェクトの読み込みと初期化が完全に終了しました。")
+    print("プロジェクトの読み込みと初期化が完全に終了しました")
+    pass
+
+def on_all_tasks_finished():
+    # すべてのバックグラウンドタスクの完了
     pass
 
 def set_all_layers_readonly():
@@ -53,7 +71,9 @@ def set_all_layers_readonly():
 #######################メイン########################
 # プロジェクト読み込み後に実行するpythonはこちらで実行 #
 ####################################################
-iface.messageBar().pushMessage("情報", 'startup.pyを実行開始しました。', level=Qgis.Info, duration=5)
-# QgsProject.instance().readProject シグナルを使用して、プロジェクトが読み込まれた後にスクリプトを実行
-QgsProject.instance().readProject.connect(on_project_open)
-print("startup.py が読み込まれました。プロジェクトが開かれるのを待機しています。")
+QgsProject.instance().readProject.connect(on_project_read)
+iface.mapCanvas().renderComplete.connect(on_render_complete)
+QgsApplication.taskManager().allTasksFinished.connect(on_all_tasks_finished)
+
+
+

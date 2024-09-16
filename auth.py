@@ -56,9 +56,9 @@ class LoginApp:
         valid_user = False
         for user in users:
             if user['username'] == entered_username and user['password'] == entered_password:
-                messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {user['UserRole']}です。")
+                messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {user['userrole']}です。")
                 self.logged_in_user = entered_username
-                self.user_role = user['UserRole']
+                self.user_role = user['userrole']
                 valid_user = True
                 self.master.quit()
                 break

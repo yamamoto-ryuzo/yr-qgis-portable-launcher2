@@ -34,16 +34,27 @@ from tkinter import scrolledtext
 from tkinter import simpledialog, messagebox
 import configparser
 
-
-import configparser
-
 # グローバル変数の定義
 # portable_profileを複写する場合は　profile = 1　にイベントで変更
 profile = 0
 username = ''
-UserRole = ''
+userrole = ''
 customUI = ''
 setting = ''
+
+def write_to_ini(ini_file, username, userrole):
+    # ConfigParserオブジェクトの作成
+    config = configparser.ConfigParser()
+    
+    # 変数をconfigに追加
+    config['variables'] = {
+        'username': username,
+        'userrole': userrole
+    }
+    
+    # iniファイルに書き込み
+    with open(ini_file, 'w') as configfile:
+        config.write(configfile)
 
 def list_current_directory_contents():
     try:
@@ -278,11 +289,14 @@ if __name__ == "__main__":
     ################
     #  認証を実施   #
     ################
-    username,UserRole = auth.run_login()
+    username,userrole = auth.run_login()
     # 環境変数などの設定
     setting = '../ini/qgis_global_settings.ini'
+    # 関数を呼び出して値を書き込む
+    write_to_ini('./ini/qgis_global_settings.ini', username, userrole)
+
     # ユーザーインファーフェイスのカスタマイズ
-    customUI = '../ini/' + UserRole + 'UI_customization.ini'
+    customUI = '../ini/' + userrole + 'UI_customization.ini'
     if username:
         print(f"ログインに成功しました。ユーザー名: {username}")
         main()
