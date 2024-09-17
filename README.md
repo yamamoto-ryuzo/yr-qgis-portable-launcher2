@@ -3,7 +3,11 @@
 ![image](https://github.com/user-attachments/assets/79b88d27-41c2-4646-a6f9-688945db4efd)  
 　詳細は後日作りますが、とりあえず、ユーザー名は「qgis」です。  
 　その他の認証は以下としています。「auth.config」ファイルを見ていください。削除すると認証を不要になります。  
-　　![image](https://github.com/user-attachments/assets/cacaf744-1e22-4f73-aa0d-fa756d83d74b)
+　　　［標準設定］  
+　　"username": "view","password": "","userrole": "Viewer"  
+　　"username": "edit","password": "","userrole": "Editor"  
+　　"username": "qgis", "password": "","userrole": "Editor"  
+　　"username": "admin","password": "","userrole": "Administrator"  
 
 ## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
 　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
