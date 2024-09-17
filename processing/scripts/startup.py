@@ -1,7 +1,7 @@
 # このpythonが動作するタイミングは
 # QGISが起動を開始し、基本的な初期化が完了した後に実行されます
 # ユーザーインターフェースが表示される前に実行されます
-# QGISのフルAPIとPythonへのアクセスが可能な状態で実行されま
+# QGISのフルAPIとPythonへのアクセスが可能な状態で実行されます
 # QGISは起動時にそのファイルを自動的に検出して実行します
 
 from qgis.core import QgsProject, QgsEditorWidgetSetup
@@ -49,7 +49,6 @@ def set_all_layers_readonly():
 
 def on_project_read():
     # ここに実行したいコードを書く
-    # プロジェクトが本当に読み込まれていない場合があるため、時間稼ぎが必要であり以下のメッセージ表示は削除しないこと
     # QGISの変数はすべて小文字であることに注意
     UserRole_value = QgsExpressionContextUtils.globalScope().variable('userrole')
     # QMessageBox.information(None, "startup.py", "プロジェクトが読み込まれました。\n初期設定を開始します。")
