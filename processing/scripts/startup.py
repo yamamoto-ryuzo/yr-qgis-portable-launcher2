@@ -47,18 +47,22 @@ def set_all_layers_readonly():
 # 関数を実行する場合は以下のように呼び出します
 # set_all_layers_readonly()
 
+def on_project_read():
+    # ここに実行したいコードを書く
+    # プロジェクトが本当に読み込まれていない場合があるため、時間稼ぎが必要であり以下のメッセージ表示は削除しないこと
+    # QGISの変数はすべて小文字であることに注意
+    UserRole_value = QgsExpressionContextUtils.globalScope().variable('userrole')
+    QMessageBox.information(None, "startup.py", "プロジェクトの読み込まれました。\n初期設定を開始します。")
+    print (f"変数　UserRole：{UserRole_value}")
+    if UserRole_value == 'Viewer':
+        set_all_layers_readonly()
+    #QMessageBox.information(None, "startup.py", "プロジェクトの読み込みと初期化が完全に終了しました。")
+    print("プロジェクトの読み込みと初期化が完全に終了しました")
+
 #######################メイン########################
 # プロジェクト読み込み後に実行するpythonはこちらで実行 #
 ####################################################
-# プロジェクトが本当に読み込まれていない場合があるため、時間稼ぎが必要であり以下のメッセージ表示は削除しないこと
-# QGISの変数はすべて小文字であることに注意
-UserRole_value = QgsExpressionContextUtils.globalScope().variable('userrole')
-QMessageBox.information(None, "startup.py", "プロジェクトの読み込まれました。\n初期設定を開始します。")
-print (f"変数　UserRole：{UserRole_value}")
-if UserRole_value == 'Viewer':
-    set_all_layers_readonly()
-#QMessageBox.information(None, "startup.py", "プロジェクトの読み込みと初期化が完全に終了しました。")
-print("プロジェクトの読み込みと初期化が完全に終了しました")
-
-
-
+# プロジェクト読み込み時にon_project_read関数を実行
+iface.projectRead.connect(on_project_read)
+# QGIS初期化完了時にon_project_read関数を実行
+iface.initializationCompleted.connect(on_project_read)

@@ -103,7 +103,7 @@ def read_qgis_project_file_from_config(file_name):
             qgis_project_file = None
             qgisconfig_folder = None
             # 仮想ドライブの標準設定は　Q:ドライブ　とする。
-            VirtualDrive = "q:"
+            VirtualDrive = "T:"
             # QGISの実行フォルダの上書き
             qgis_install_dir_ow = None
 
@@ -190,7 +190,7 @@ def main():
     qgis_project_file, qgisconfig_folder , VirtualDrive , qgis_install_dir_ow = read_qgis_project_file_from_config(file_name)
     if qgis_install_dir_ow != None:
         qgis_install_dir = qgis_install_dir_ow
-
+    print (f"qgis_project_fileを設定しました：{qgis_project_file}")
 
     ############################
     #   仮想ドライブ環境の設定   #
@@ -280,10 +280,10 @@ def main():
     # 標準のプロファイルは「portable」   
     if qgis_project_file is None:
         # 引数がない場合は新しい空のプロジェクトでQGISを起動
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI ,'--profiles-path', portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
     else:
         # 引数がある場合は指定されたプロジェクトファイルを開く
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path', portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' ,'--project', qgis_project_file])
+        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' , '--project' , qgis_project_file])
 
 if __name__ == "__main__":
     ################
