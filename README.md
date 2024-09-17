@@ -15,7 +15,12 @@
 ## QGISランチャーコンセプト（作成中　2024/09/16）
 - 起動.EXEファイルによる、指定プロジェクトファイルの起動  
 - UIカスタマイズによる、権限別のUI設定   
+　AdministratorUI_customization.ini  
+　EditorUI_customization.ini  
+　ViewerUI_customization.ini  
+　qgis_global_settings.ini  
 - startup.pyによる、権限別のレイヤ設定  
+  "userrole": "Viewer"　に対して、「レイヤーを読み取り」に設定
 ![image](https://github.com/user-attachments/assets/20c4a48d-7de1-49c4-9e45-f1da5e1fd8af)
 ## QGISランチャー
  ProjectFile.exe を起動してください。  
