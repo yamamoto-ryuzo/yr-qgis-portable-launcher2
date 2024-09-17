@@ -52,11 +52,11 @@ def on_project_read():
     # プロジェクトが本当に読み込まれていない場合があるため、時間稼ぎが必要であり以下のメッセージ表示は削除しないこと
     # QGISの変数はすべて小文字であることに注意
     UserRole_value = QgsExpressionContextUtils.globalScope().variable('userrole')
-    QMessageBox.information(None, "startup.py", "プロジェクトの読み込まれました。\n初期設定を開始します。")
+    # QMessageBox.information(None, "startup.py", "プロジェクトが読み込まれました。\n初期設定を開始します。")
     print (f"変数　UserRole：{UserRole_value}")
     if UserRole_value == 'Viewer':
         set_all_layers_readonly()
-    #QMessageBox.information(None, "startup.py", "プロジェクトの読み込みと初期化が完全に終了しました。")
+    # QMessageBox.information(None, "startup.py", "プロジェクトの読み込みと初期化が完全に終了しました。")
     print("プロジェクトの読み込みと初期化が完全に終了しました")
 
 #######################メイン########################
