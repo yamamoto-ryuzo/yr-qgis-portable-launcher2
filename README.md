@@ -1,6 +1,6 @@
 # 初めての人でも扱いやすいポータブルQGIS環境の構築
 ## 2024/09/14　認証画面の追加+2024/09/21　QGISの選択追加
-　![image](https://github.com/user-attachments/assets/54a31ad2-8e42-40ad-b554-d9f08d508cde)
+　![image](https://github.com/user-attachments/assets/54a31ad2-8e42-40ad-b554-d9f08d508cde)  
 　詳細は後日作りますが、とりあえず、ユーザー名は「qgis」です。  
 　その他の認証は以下としています。「auth.config」ファイルを見ていください。削除すると認証を不要になります。  
 　　　［標準設定］  
