@@ -1,36 +1,23 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
-import configparser
+import json
 import sys
 import os
-import json
 
 class LoginApp:
     def __init__(self, master):
         self.master = master
         self.master.title("ログインフォーム")
-        self.center_window(300, 150)
+        self.center_window(300, 180)
 
         self.login_attempts = 0
         self.max_attempts = 10
         self.logged_in_user = None
         self.user_role = None
+        self.selected_version = None
 
-        tk.Label(self.master, text="ユーザー名:").pack()
-        self.username_entry = tk.Entry(self.master)
-        self.username_entry.pack()
-        self.username_entry.bind('<Return>', self.focus_password)
-
-        tk.Label(self.master, text="パスワード:").pack()
-        self.password_entry = tk.Entry(self.master, show="*")
-        self.password_entry.pack()
-        self.password_entry.bind('<Return>', self.focus_login_button)
-
-        self.login_button = tk.Button(self.master, text="ログイン", command=self.validate_login)
-        self.login_button.pack(pady=10)
-        self.login_button.bind('<Return>', self.validate_login)
-
-        self.username_entry.focus()
+        self.create_widgets()
 
     def center_window(self, width, height):
         screen_width = self.master.winfo_screenwidth()
@@ -39,8 +26,41 @@ class LoginApp:
         y = (screen_height // 2) - (height // 2)
         self.master.geometry(f'{width}x{height}+{x}+{y}')
 
+    def create_widgets(self):
+        tk.Label(self.master, text="ユーザー名:").pack()
+        self.username_entry = tk.Entry(self.master)
+        self.username_entry.pack()
+        self.username_entry.bind('<Return>', self.focus_password)
+
+        tk.Label(self.master, text="パスワード:").pack()
+        self.password_entry = tk.Entry(self.master, show="*")
+        self.password_entry.pack()
+        self.password_entry.bind('<Return>', self.focus_version_combo)
+
+        tk.Label(self.master, text="バージョン選択:").pack()
+        self.version_var = tk.StringVar()
+        self.version_combo = ttk.Combobox(self.master, textvariable=self.version_var)
+        print (f"インストール版の確認：{get_associated_app('qgs')}")
+        if get_associated_app('qgs') != '':
+            self.version_combo['values'] = ('インストール版', 'ポータブル版')
+            self.version_combo.set('インストール版')  # デフォルト値
+        else:
+            self.version_combo['values'] = ('ポータブル版')
+            self.version_combo.set('ポータブル版')  # デフォルト値
+        self.version_combo.pack()
+        self.version_combo.bind('<Return>', self.focus_login_button)
+
+        self.login_button = tk.Button(self.master, text="ログイン", command=self.validate_login)
+        self.login_button.pack(pady=10)
+        self.login_button.bind('<Return>', self.validate_login)
+
+        self.username_entry.focus()
+
     def focus_password(self, event):
         self.password_entry.focus()
+
+    def focus_version_combo(self, event):
+        self.version_combo.focus()
 
     def focus_login_button(self, event):
         self.login_button.focus()
@@ -48,22 +68,29 @@ class LoginApp:
     def validate_login(self, event=None):
         entered_username = self.username_entry.get()
         entered_password = self.password_entry.get()
+        self.selected_version = self.version_var.get()
         
-        with open('auth.config', 'r') as config_file:
-            config = json.load(config_file)
-        
+        try:
+            with open('auth.config', 'r') as config_file:
+                config = json.load(config_file)
+        except FileNotFoundError:
+            messagebox.showerror("エラー", "設定ファイルが見つかりません。")
+            self.master.quit()
+            return
+        except json.JSONDecodeError:
+            messagebox.showerror("エラー", "設定ファイルの形式が正しくありません。")
+            self.master.quit()
+            return
+
         users = config.get('users', [])
-        valid_user = False
-        for user in users:
-            if user['username'] == entered_username and user['password'] == entered_password:
-                messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {user['userrole']}です。")
-                self.logged_in_user = entered_username
-                self.user_role = user['userrole']
-                valid_user = True
-                self.master.quit()
-                break
-        
-        if not valid_user:
+        valid_user = next((user for user in users if user['username'] == entered_username and user['password'] == entered_password), None)
+
+        if valid_user:
+            messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {valid_user['userrole']}です。\n 選択されたバージョン: {self.selected_version}")
+            self.logged_in_user = entered_username
+            self.user_role = valid_user['userrole']
+            self.master.quit()
+        else:
             self.login_attempts += 1
             remaining_attempts = self.max_attempts - self.login_attempts
             if remaining_attempts > 0:
@@ -79,25 +106,40 @@ class LoginApp:
         self.password_entry.delete(0, tk.END)
         self.username_entry.focus()
 
-    def get_logged_in_user(self):
-        return self.logged_in_user
+    def get_login_info(self):
+        return self.logged_in_user, self.user_role, self.selected_version
 
-    def get_user_role(self):
-        return self.user_role
+import winreg
+
+def get_associated_app(extension):
+    try:
+        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, f'.{extension}') as key:
+            prog_id = winreg.QueryValue(key, '')
+        
+        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, f'{prog_id}\\shell\\open\\command') as key:
+            command = winreg.QueryValue(key, '')
+        
+        # コマンドから実行ファイルのパスを抽出
+        app_path = command.split('"')[1]
+        
+        # パスが実在するか確認
+        if os.path.exists(app_path):
+            return app_path
+        else:
+            return ''
+    except WindowsError:
+        return ''
 
 def run_login():
-    if not os.path.exists('auth.config'):
-        return "free", "Administrator"  # ファイルが存在しない場合のデフォルトユーザー名と役割
-    
     root = tk.Tk()
     app = LoginApp(root)
     root.mainloop()
-    return app.get_logged_in_user(), app.get_user_role()
+    return app.get_login_info()
 
 # メイン処理
 if __name__ == "__main__":
-    logged_in_user, user_role = run_login()
+    logged_in_user, user_role, selected_version = run_login()
     if logged_in_user:
-        print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限は {user_role}です。")
+        print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限: {user_role}, 選択されたバージョン: {selected_version}")
     else:
         print("ログインに失敗しました。")

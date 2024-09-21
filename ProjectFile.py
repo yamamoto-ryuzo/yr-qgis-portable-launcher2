@@ -22,7 +22,7 @@
 
 import auth
 
-import set_drive
+
 
 import os
 import sys
@@ -34,13 +34,18 @@ from tkinter import scrolledtext
 from tkinter import simpledialog, messagebox
 import configparser
 
+# 独自インポート
+import set_drive,auth
+
 # グローバル変数の定義
 # portable_profileを複写する場合は　profile = 1　にイベントで変更
 profile = 0
 username = ''
 userrole = ''
+selected_version = ''
 customUI = ''
 setting = ''
+exeQGIS = '' #実施に実行するQGIS選択
 
 def write_to_ini(ini_file, username, userrole):
     # ConfigParserオブジェクトの作成
@@ -277,19 +282,25 @@ def main():
 
     # 9.6.1. コマンドラインと環境変数
     # https://docs.qgis.org/3.34/ja/docs/user_manual/introduction/qgis_configuration.html#command-line-and-environment-variables  
-    # 標準のプロファイルは「portable」   
+    # 標準のプロファイルは「portable」 
+    if selected_version == 'インストール版':
+        exeQGIS = auth.get_associated_app('qgs')
+    else:
+        exeQGIS = os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat')
+
+    print(f"実行するQGIS：{exeQGIS}")
     if qgis_project_file is None:
         # 引数がない場合は新しい空のプロジェクトでQGISを起動
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
+        subprocess.Popen([exeQGIS,'--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
     else:
         # 引数がある場合は指定されたプロジェクトファイルを開く
-        subprocess.Popen([os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat'), '--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' , '--project' , qgis_project_file])
+        subprocess.Popen([exeQGIS,'--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' , '--project' , qgis_project_file])
 
 if __name__ == "__main__":
     ################
     #  認証を実施   #
     ################
-    username,userrole = auth.run_login()
+    username,userrole,selected_version = auth.run_login()
     # 環境変数などの設定
     setting = '../ini/qgis_global_settings.ini'
     # 関数を呼び出して値を書き込む
