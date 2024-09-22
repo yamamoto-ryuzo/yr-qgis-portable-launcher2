@@ -1,8 +1,7 @@
 # 初めての人でも扱いやすいポータブルQGIS環境の構築
-## 2024/09/14　認証画面の追加+2024/09/21　QGISの選択追加
+## 起動画面
 　![image](https://github.com/user-attachments/assets/54a31ad2-8e42-40ad-b554-d9f08d508cde)  
-　詳細は後日作りますが、とりあえず、ユーザー名は「qgis」です。  
-　その他の認証は以下としています。「auth.config」ファイルを見ていください。削除すると認証を不要になります。  
+#### 【auth.config】ファイルが存在しない場合は、認証が不要になります。  
 　　　［標準設定］  
 　　"username": "view","password": "","userrole": "Viewer"  
 　　"username": "edit","password": "","userrole": "Editor"  
@@ -11,13 +10,15 @@
 　　　［バージョン選択］  
 　　インストール版：拡張子qgsと関連付けされているQGIS  
 　　ポータブル版：congiで指定されているQGIS  
-## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
-　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
-## ただいま大幅な見直し実施中  
-## DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。 
+#### 【ProjectFile.config】
+　　VirtualDrive=Q:  
+　　により仮想ドライブを指定してください。  
+　　その他の項目は任意です。  
+   
+## ランチャー導入により、QGISのDVD納品・統一環境の構築等に可能となります。 
 [システム一式 ver3.38.1](https://1drv.ms/u/c/cbbfeab49e70546f/EYyJqLhVbXNFufPDmemiWhABSOS7PdZqyGN_K_YfKuRKIg?e=N0973F)  
 
-## QGISランチャーコンセプト（作成中　2024/09/16）
+## QGISランチャーコンセプト
 - 起動.EXEファイルによる、指定プロジェクトファイルの起動  
 - UIカスタマイズによる、権限別のUI設定   
 　AdministratorUI_customization.ini  
@@ -40,14 +41,14 @@ EXEはファイル名を変えることで、同じ名称のqgsファイルを�
 （フォルダー構成）  
 　QGISポータブル版を私の趣味により統一環境として組込済のプラグインを含んでいます。  
 　WindowsのProjectFile.exeです。    
-  /QGIS_portable  
+　/ルードフォルダ
 　　ProjectFile.exe ----------------　ランチャー本体   
 　　/QGIS各バージョン/qgis --------------- QGIS本体  
 　　/QGIS各バージョン/qgisconfig----------　各種共通設定ファイルを含んだコンフィグファイル    
 　　/ProjectFiles-------------------　初期設定がされたプロジェクトファイルを保存するフォルダ    
-　　/ProjectFiles/OpenData----------　プロジェクトファイルで利用しているオープンデータを保存するフォルダ  
-
-　を/QGIS_portableを英数字のみからなるフォルダに解凍してください。   
+　　/ProjectFiles/data----------　プロジェクトファイルで利用しているオープンデータを保存するフォルダ(Lizmap)
+ 
+　英数字のみからなるフォルダに解凍してください。   
 　日本語を含むフォルダはエラーになります。  
 ![image](https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/assets/86514652/177ffbe3-654d-4d22-9f70-add09bcf0323)
   
