@@ -310,6 +310,7 @@ if __name__ == "__main__":
     customUI = '../ini/' + userrole + 'UI_customization.ini'
     if username:
         print(f"ログインに成功しました。ユーザー名: {username}")
+        auth.save_username_to_ini(username)
         main()
     else:
         print("ログインに失敗しました。")

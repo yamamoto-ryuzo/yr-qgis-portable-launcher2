@@ -4,6 +4,7 @@ from tkinter import messagebox
 import json
 import sys
 import os
+import configparser
 
 class LoginApp:
     def __init__(self, master):
@@ -26,9 +27,17 @@ class LoginApp:
         y = (screen_height // 2) - (height // 2)
         self.master.geometry(f'{width}x{height}+{x}+{y}')
 
+    @staticmethod
+    def get_username_from_auth_ini():
+        config = configparser.ConfigParser()
+        auth_ini_path = os.path.join(os.path.dirname(__file__),'ini', 'auth.ini')
+        config.read(auth_ini_path)
+        return config.get('Auth', 'username', fallback='')
+
     def create_widgets(self):
         tk.Label(self.master, text="ユーザー名:").pack()
         self.username_entry = tk.Entry(self.master)
+        self.username_entry.insert(0, self.get_username_from_auth_ini())
         self.username_entry.pack()
         self.username_entry.bind('<Return>', self.focus_password)
 
@@ -136,10 +145,19 @@ def run_login():
     root.mainloop()
     return app.get_login_info()
 
+def save_username_to_ini(username):
+    config = configparser.ConfigParser()
+    config['Auth'] = {'username': username}
+    with open('./ini/auth.ini', 'w') as configfile:
+        config.write(configfile)
+        
+"""
 # メイン処理
 if __name__ == "__main__":
     logged_in_user, user_role, selected_version = run_login()
     if logged_in_user:
         print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限: {user_role}, 選択されたバージョン: {selected_version}")
+        save_username_to_ini(logged_in_user)
     else:
         print("ログインに失敗しました。")
+"""
