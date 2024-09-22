@@ -8,7 +8,9 @@
 　　"username": "edit","password": "","userrole": "Editor"  
 　　"username": "qgis", "password": "","userrole": "Editor"  
 　　"username": "admin","password": "","userrole": "Administrator"  
-
+　　　［バージョン選択］  
+　　インストール版：拡張子qgsと関連付けされているQGIS  
+　　ポータブル版：congiで指定されているQGIS  
 ## 2024/04/27　起動のためのコンフィグが必要になりました。そのうち説明は更新予定。
 　https://github.com/yamamoto-ryuzo/yr-qgis-portable-launcher2/issues/2
 ## ただいま大幅な見直し実施中  
