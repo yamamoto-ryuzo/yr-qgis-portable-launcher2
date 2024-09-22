@@ -1,6 +1,6 @@
 # 初めての人でも扱いやすいポータブルQGIS環境の構築
-## 2024/09/14　認証画面の追加
-![image](https://github.com/user-attachments/assets/79b88d27-41c2-4646-a6f9-688945db4efd)  
+## 2024/09/14　認証画面の追加+2024/09/21　QGISの選択追加
+　![image](https://github.com/user-attachments/assets/54a31ad2-8e42-40ad-b554-d9f08d508cde)  
 　詳細は後日作りますが、とりあえず、ユーザー名は「qgis」です。  
 　その他の認証は以下としています。「auth.config」ファイルを見ていください。削除すると認証を不要になります。  
 　　　［標準設定］  
@@ -14,7 +14,6 @@
 ## ただいま大幅な見直し実施中  
 ## DVD納品等に対応し、シンプルにQGISを日ごろの運用にも利用できる環境の構築を目指します。 
 [システム一式 ver3.38.1](https://1drv.ms/u/c/cbbfeab49e70546f/EYyJqLhVbXNFufPDmemiWhABSOS7PdZqyGN_K_YfKuRKIg?e=N0973F)  
-[システム一式 LTR ver3.34.8](https://1drv.ms/u/c/cbbfeab49e70546f/EUBx0GqMvbNBgcDbWhdHy4cBjpGuXLGYzPh1cE952tUFeg?e=QgoXg9)  
 
 ## QGISランチャーコンセプト（作成中　2024/09/16）
 - 起動.EXEファイルによる、指定プロジェクトファイルの起動  
