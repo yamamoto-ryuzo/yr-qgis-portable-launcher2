@@ -156,7 +156,6 @@ def on_key_press(event):
     global profile  
     profile = 1
 
-
 ####################
 #  MAINプログラム  #
 ###################
@@ -246,55 +245,48 @@ def main():
         shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
         print (f"profilesフォルダを初期化しました：{portable_profile_path}")
  
-    #####################
-    # ポータブル版の起動 #
-    ####################
-    # 現在の作業フォルダを取得
-    DRV_LTR = os.getcwd()
-    print (f"現在の作業フォルダのパス DRV_LTR：{DRV_LTR}")  
-    # QGISのインストールパスを設定
-    OSGEO4W_ROOT = os.path.join(DRV_LTR, 'qgis')
-    # QGISのタイプとして最新版とLTRを自動判定
-    folder_path = os.path.join(OSGEO4W_ROOT, 'apps', 'qgis-ltr')
-    if check_folder_exists(folder_path):
-        QGIS_Type='qgis-ltr'
-    else:
-        QGIS_Type='qgis'
-    print ("QGISフォルダのパス", OSGEO4W_ROOT) 
-    # システムパスにQGIS関連のフォルダを追加
-    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', QGIS_Type, 'bin')
-    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps')
-    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'bin')
-    os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', 'grass')
-    # PYTHONPATH環境変数を追加
-    #if 'PYTHONPATH' in os.environ:
-    #    os.environ['PYTHONPATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'python')
-    #else:
-    #    os.environ['PYTHONPATH'] = os.path.join(OSGEO4W_ROOT, 'python')
-    # PYQGIS_STARTUP環境変数に startup.py のパスを追加
-    #if 'PYQGIS_STARTUP' in os.environ:
-    #    os.environ['PYQGIS_STARTUP'] += os.pathsep + os.path.join(DRV_LTR, 'processing','scripts')
-    #else:
-    #    os.environ['PYQGIS_STARTUP'] = os.path.join(DRV_LTR, 'processing','scripts')
-    # コマンドライン引数をチェックしてQGISを起動
-    print (f"プロジェクトファイルのパス：{qgis_project_file}")  
-    print (f"profilesフォルダ：{portable_profile_path}")  
 
-    # 9.6.1. コマンドラインと環境変数
-    # https://docs.qgis.org/3.34/ja/docs/user_manual/introduction/qgis_configuration.html#command-line-and-environment-variables  
-    # 標準のプロファイルは「portable」 
     if selected_version == 'インストール版':
         exeQGIS = auth.get_associated_app('qgs')
     else:
+        #####################
+        # ポータブル版の起動 #
+        ####################
+        # 現在の作業フォルダを取得
+        DRV_LTR = os.getcwd()
+        print (f"現在の作業フォルダのパス DRV_LTR：{DRV_LTR}")  
+        # QGISのインストールパスを設定
+        OSGEO4W_ROOT = os.path.join(DRV_LTR, 'qgis')
+        # QGISのタイプとして最新版とLTRを自動判定
+        folder_path = os.path.join(OSGEO4W_ROOT, 'apps', 'qgis-ltr')
+        if check_folder_exists(folder_path):
+            QGIS_Type='qgis-ltr'
+        else:
+            QGIS_Type='qgis'
+        print ("QGISフォルダのパス", OSGEO4W_ROOT) 
         exeQGIS = os.path.join(OSGEO4W_ROOT, 'bin', QGIS_Type+'.bat')
+        # システムパスにQGIS関連のフォルダを追加
+        os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', QGIS_Type, 'bin')
+        os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps')
+        os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'bin')
+        os.environ['PATH'] += os.pathsep + os.path.join(OSGEO4W_ROOT, 'apps', 'grass')
 
-    print(f"実行するQGIS：{exeQGIS}")
+    ##############
+    # QGISの起動 #
+    #############
+    print (f"実行するQGIS：{exeQGIS}")
+    print (f"プロジェクトファイルのパス：{qgis_project_file}")  
+    print (f"profilesフォルダ：{portable_profile_path}")  
+    # 9.6.1. コマンドラインと環境変数
+    # https://docs.qgis.org/3.34/ja/docs/user_manual/introduction/qgis_configuration.html#command-line-and-environment-variables  
+    # 標準のプロファイルは「portable」 
     if qgis_project_file is None:
         # 引数がない場合は新しい空のプロジェクトでQGISを起動
         subprocess.Popen([exeQGIS,'--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py'])
     else:
         # 引数がある場合は指定されたプロジェクトファイルを開く
         subprocess.Popen([exeQGIS,'--globalsettingsfile' , setting ,'--customizationfile' , customUI , '--profiles-path' , portable_profile_path , '--profile', 'portable','--code', '../processing/scripts/startup.py' , '--project' , qgis_project_file])
+
 
 if __name__ == "__main__":
     ################
