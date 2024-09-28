@@ -1279,7 +1279,12 @@ class ServerManager:
                 config.setConfig('username', user)
                 config.setConfig('password', password)
                 config.setConfig('realm', QUrl(url).host())
-                result = auth_manager.storeAuthenticationConfig(config, True)
+
+                if qgis_version() < 32000:
+                    auth_manager.removeAuthenticationConfig(auth_id)
+                    result = auth_manager.storeAuthenticationConfig(config)
+                else:
+                    result = auth_manager.storeAuthenticationConfig(config, True)
 
                 if not result:
                     LOGGER.critical("Error while migrating the server")
