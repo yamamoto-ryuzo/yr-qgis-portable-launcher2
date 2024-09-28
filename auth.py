@@ -30,7 +30,7 @@ class LoginApp:
     @staticmethod
     def get_username_from_auth_ini():
         config = configparser.ConfigParser()
-        auth_ini_path = os.path.join(os.path.dirname(__file__),'ini', 'auth.ini')
+        auth_ini_path = os.path.join(os.getcwd(),'ini', 'auth.ini')
         config.read(auth_ini_path)
         return config.get('Auth', 'username', fallback='')
 

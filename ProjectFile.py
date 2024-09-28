@@ -11,7 +11,7 @@
 
 # EXE作成
 #　ディレクトリは適宜変更
-# cd C:\Users\ryu\マイドライブ（yamamoto.ryuzou@gmail.com）\github\yr-qgis-portable-launcher2
+# cd C:\Users\ryu\Box\github\yr-qgis-portable-launcher2
 # pyinstaller ProjectFile.py --onefile --noconsole --distpath ./
 #　完成したらC:\GoogleDrive\github\yr-qgis-portable-launcher2\QGIS_portable\ProjectFile.exeとかメッセージが出て完成
   
@@ -105,10 +105,17 @@ def read_qgis_project_file_from_config(file_name):
     try:
         with open(file_name+".config", "r", encoding="utf-8") as f:
             lines = f.readlines()
-            qgis_project_file = None
+            # qgis_project_file 通常はEXEのファイル名.qgs
+            # 実行可能ファイルのパスを取得
+            executable_path = sys.executable
+            # ファイル名から拡張子を除いた部分を取得
+            file_name_without_ext = os.path.splitext(os.path.basename(executable_path))[0]
+            # 新しい拡張子(.qgs)を追加
+            qgis_project_file = '../ProjectFiles/' + file_name_without_ext + '.qgs'
+
             qgisconfig_folder = None
             # 仮想ドライブの標準設定は　Q:ドライブ　とする。
-            VirtualDrive = "T:"
+            VirtualDrive = "Q:"
             # QGISの実行フォルダの上書き
             qgis_install_dir_ow = None
 
@@ -209,7 +216,7 @@ def main():
     # "/persistent:yes" オプションは、再起動後もドライブの割り当てを保持するためのものです
     subprocess.run(["subst",VirtualDrive, current_folder])
     # ドライブの設定をユーザーに通知する
-    print (f"仮想ドライブの設定：{VirtualDrive}ライブを設定しました。")
+    print (f"仮想ドライブの設定：{VirtualDrive}ドライブを設定しました。")
     # カレントディレクトリを VirtualDriveドライブに変更します。
     os.chdir( VirtualDrive + "\\" )
 
@@ -277,6 +284,11 @@ def main():
     print (f"実行するQGIS：{exeQGIS}")
     print (f"プロジェクトファイルのパス：{qgis_project_file}")  
     print (f"profilesフォルダ：{portable_profile_path}")  
+    # qgis_project_file が存在するか確認
+    # messagebox.showerror("qgis_project_file", qgis_project_file)
+    if not os.path.exists(qgis_project_file):
+        messagebox.showerror("警告", "指定されたQGISプロジェクトファイルは存在しません。\n無視してQGISを実行します。")
+
     # 9.6.1. コマンドラインと環境変数
     # https://docs.qgis.org/3.34/ja/docs/user_manual/introduction/qgis_configuration.html#command-line-and-environment-variables  
     # 標準のプロファイルは「portable」 
