@@ -1,6 +1,6 @@
 # 初めての人でも扱いやすいポータブルQGIS環境の構築
 ## 起動画面
-![image](https://github.com/user-attachments/assets/ea4196c0-be51-47d9-888a-45811f3e2024)
+　![image](https://github.com/user-attachments/assets/54a31ad2-8e42-40ad-b554-d9f08d508cde)  
 #### 【auth.config】ファイルが存在しない場合は、認証が不要になります。  
 　　　［標準設定］  
 　　"username": "view","password": "","userrole": "Viewer"  
