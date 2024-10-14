@@ -11,7 +11,7 @@
 
 # EXE作成
 #　ディレクトリは適宜変更
-# cd C:\Users\ryu\Box\github\yr-qgis-portable-launcher2
+# cd C:\github\yr-qgis-portable-launcher2
 # pyinstaller ProjectFile.py --onefile --noconsole --distpath ./
 #　完成したらC:\GoogleDrive\github\yr-qgis-portable-launcher2\QGIS_portable\ProjectFile.exeとかメッセージが出て完成
   
@@ -33,6 +33,8 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import simpledialog, messagebox
 import configparser
+import time
+import stat
 
 # 独自インポート
 import set_drive,auth
@@ -43,6 +45,7 @@ profile = 0
 username = ''
 userrole = ''
 selected_version = ''
+selected_profile = ''
 customUI = ''
 setting = ''
 exeQGIS = '' #実施に実行するQGIS選択
@@ -163,6 +166,28 @@ def on_key_press(event):
     global profile  
     profile = 1
 
+# フォルダの強制削除
+def force_delete(path):
+    def on_rm_error(func, path, exc_info):
+        # 権限を変更して再試行
+        os.chmod(path, stat.S_IWRITE)
+        func(path)
+
+    # 複数回削除を試みる
+    max_attempts = 3
+    for attempt in range(max_attempts):
+        try:
+            if os.path.isfile(path):
+                os.unlink(path)
+            elif os.path.isdir(path):
+                shutil.rmtree(path, onerror=on_rm_error)
+            return True
+        except Exception as e:
+            if attempt == max_attempts - 1:
+                print(f"{max_attempts}回の試行後、{path}の削除に失敗しました: {e}")
+                return False
+            time.sleep(1)  # 再試行前に少し待機
+
 ####################
 #  MAINプログラム  #
 ###################
@@ -245,12 +270,20 @@ def main():
     print (f"配布用・ポータブルprofilesフォルダ:{source_path}")        
     # ポータブルプロファイルが存在しない場合にコピーする
     # profile == 1(キーボード[r]が押されていれば)コピー
-    if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1):
-        # いったん削除,エラーは無視
-        shutil.rmtree(portable_profile_path,ignore_errors=False)
-        # 上書き許可でコピー
-        shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
-        print (f"profilesフォルダを初期化しました：{portable_profile_path}")
+    # 起動時に　'profile強制更新'を選択
+    if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1) or (selected_profile == 'profile強制更新'):
+        print(f"profilesフォルダを初期化します：{portable_profile_path}")
+        
+        # Force delete the directory
+        if force_delete(portable_profile_path):
+            print(f"profilesフォルダを削除しました：{portable_profile_path}")
+        else:
+            print(f"profilesフォルダの削除に失敗しました：{portable_profile_path}")
+            # You might want to handle this failure case appropriately
+    
+    # 上書き許可でコピー
+    shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
+    print(f"profilesフォルダを初期化完了しました：{portable_profile_path}")
  
 
     if selected_version == 'インストール版':
@@ -304,7 +337,7 @@ if __name__ == "__main__":
     ################
     #  認証を実施   #
     ################
-    username,userrole,selected_version = auth.run_login()
+    username,userrole,selected_version,selected_profile= auth.run_login()
     # 環境変数などの設定
     setting = '../ini/qgis_global_settings.ini'
     # 関数を呼び出して値を書き込む

@@ -10,7 +10,7 @@ class LoginApp:
     def __init__(self, master):
         self.master = master
         self.master.title("ログインフォーム")
-        self.center_window(300, 180)
+        self.center_window(300, 220)
 
         self.login_attempts = 0
         self.max_attempts = 10
@@ -57,7 +57,15 @@ class LoginApp:
             self.version_combo['values'] = ('ポータブル版')
             self.version_combo.set('ポータブル版')  # デフォルト値
         self.version_combo.pack()
-        self.version_combo.bind('<Return>', self.focus_login_button)
+        self.version_combo.bind('<Return>', self.focus_profile_combo)
+
+        tk.Label(self.master, text="プロファイル選択:").pack()
+        self.profile_var = tk.StringVar()
+        self.profile_combo = ttk.Combobox(self.master, textvariable=self.profile_var)
+        self.profile_combo['values'] = ('portable', 'profile強制更新')
+        self.profile_combo.set('portable')  # デフォルト値
+        self.profile_combo.pack()
+        self.profile_combo.bind('<Return>', self.focus_login_button)
 
         self.login_button = tk.Button(self.master, text="ログイン", command=self.validate_login)
         self.login_button.pack(pady=10)
@@ -71,6 +79,9 @@ class LoginApp:
     def focus_version_combo(self, event):
         self.version_combo.focus()
 
+    def focus_profile_combo(self, event):
+        self.profile_combo.focus()
+
     def focus_login_button(self, event):
         self.login_button.focus()
 
@@ -78,6 +89,7 @@ class LoginApp:
         entered_username = self.username_entry.get()
         entered_password = self.password_entry.get()
         self.selected_version = self.version_var.get()
+        self.selected_profile = self.profile_combo.get()
         
         try:
             with open('auth.config', 'r') as config_file:
@@ -95,7 +107,7 @@ class LoginApp:
         valid_user = next((user for user in users if user['username'] == entered_username and user['password'] == entered_password), None)
 
         if valid_user:
-            messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {valid_user['userrole']}です。\n 選択されたバージョン: {self.selected_version}")
+            messagebox.showinfo("ログイン成功", f"ようこそ、{entered_username}さん!\n あなたの権限は {valid_user['userrole']}です。\n 選択されたバージョン: {self.selected_version}\n 選択されたプロファイル: {self.selected_profile }")
             self.logged_in_user = entered_username
             self.user_role = valid_user['userrole']
             self.master.quit()
@@ -116,7 +128,7 @@ class LoginApp:
         self.username_entry.focus()
 
     def get_login_info(self):
-        return self.logged_in_user, self.user_role, self.selected_version
+        return self.logged_in_user, self.user_role, self.selected_version,self.selected_profile
 
 import winreg
 
@@ -154,9 +166,9 @@ def save_username_to_ini(username):
 """
 # メイン処理
 if __name__ == "__main__":
-    logged_in_user, user_role, selected_version = run_login()
+    logged_in_user, user_role, selected_version ,selected_profile= run_login()
     if logged_in_user:
-        print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限: {user_role}, 選択されたバージョン: {selected_version}")
+        print(f"ログインに成功しました。ユーザー名: {logged_in_user}, 権限: {user_role}, 選択されたバージョン: {selected_version},プロファイル：{selected_profile}")
         save_username_to_ini(logged_in_user)
     else:
         print("ログインに失敗しました。")
