@@ -12,7 +12,7 @@
 # EXE作成
 #　ディレクトリは適宜変更
 # cd C:\github\yr-qgis-portable-launcher2
-# pyinstaller ProjectFile.py --onefile --noconsole --distpath ./
+# pyinstaller ProjectFile.py --onefile --noconsole --distpath ./ --clean
 #　完成したらC:\GoogleDrive\github\yr-qgis-portable-launcher2\QGIS_portable\ProjectFile.exeとかメッセージが出て完成
   
 
@@ -46,6 +46,7 @@ username = ''
 userrole = ''
 selected_version = ''
 selected_profile = ''
+qgisconfig_folder = ''
 customUI = ''
 setting = ''
 exeQGIS = '' #実施に実行するQGIS選択
@@ -160,12 +161,6 @@ def check_folder_exists(folder_path):
         # messagebox.showerror("エラー", f"フォルダ '{folder_path}' は存在しません。")
         return False
 
-# 特定のキーが押されたイベントで実行
-def on_key_press(event):
-    # グローバル変数を使用するために宣言
-    global profile  
-    profile = 1
-
 # フォルダの強制削除
 def force_delete(path):
     def on_rm_error(func, path, exc_info):
@@ -192,17 +187,6 @@ def force_delete(path):
 #  MAINプログラム  #
 ###################
 def main():
-    # グローバル変数を使用するために宣言
-    global profile  
-    # "shift"キーが押されたときにon_key_press関数を呼び出す
-    keyboard.on_press_key("shift", on_key_press)
-    # "r"キーが押されたときにon_key_press関数を呼び出す
-    keyboard.on_press_key("r", on_key_press)
-    # "crtl"キーが押されたときにon_key_press関数を呼び出す
-    keyboard.on_press_key("ctrl", on_key_press)
-    # "alt"キーが押されたときにon_key_press関数を呼び出す
-    keyboard.on_press_key("alt", on_key_press)
-
     ############################
     #   設定ファイルの読み込み   #
     ############################
@@ -244,7 +228,6 @@ def main():
     print (f"仮想ドライブの設定：{VirtualDrive}ドライブを設定しました。")
     # カレントディレクトリを VirtualDriveドライブに変更します。
     os.chdir( VirtualDrive + "\\" )
-
     DRV_LTR = os.getcwd()  
     print (f"現在の作業フォルダのパス：{DRV_LTR}")  
 
@@ -263,29 +246,33 @@ def main():
     # 環境変数を含むことを前提とする
     # 環境変数 %APPDATA%を含むフォルダのパス
     # 環境変数を展開して実際のパスに変換する
-    portable_profile_path = os.path.expandvars(qgisconfig_folder)
+    print (f"コンフィグで指定されたポータブルqgisconfig_folderフォルダ:{qgisconfig_folder}")  
+    if qgisconfig_folder == None:
+        appdata = os.getenv('APPDATA')
+        print (f"環境変数appdataフォルダ:{appdata}")  
+        qgisconfig_folder = os.path.join(appdata, 'QGIS', 'QGIS3')
+        print (f"実行・ポータブルprofilesフォルダqgisconfig_folder:{qgisconfig_folder}")  
+    portable_profile_path = qgisconfig_folder
     print (f"実行・ポータブルprofilesフォルダ:{portable_profile_path}")  
 
     source_path = os.path.abspath('./qgisconfig')
     print (f"配布用・ポータブルprofilesフォルダ:{source_path}")        
     # ポータブルプロファイルが存在しない場合にコピーする
-    # profile == 1(キーボード[r]が押されていれば)コピー
-    # 起動時に　'profile強制更新'を選択
-    if not os.path.exists(os.path.join(portable_profile_path, 'profiles', 'portable')) or (profile == 1) or (selected_profile == 'profile強制更新'):
+    # 起動時に　'profile強制更新'　を選択
+    if not os.path.exists(portable_profile_path) or (selected_profile == 'profile強制更新'):
         print(f"profilesフォルダを初期化します：{portable_profile_path}")
         
         # Force delete the directory
-        if force_delete(portable_profile_path):
-            print(f"profilesフォルダを削除しました：{portable_profile_path}")
-        else:
-            print(f"profilesフォルダの削除に失敗しました：{portable_profile_path}")
-            # You might want to handle this failure case appropriately
+        #if force_delete(portable_profile_path):
+        #    print(f"profilesフォルダを削除しました：{portable_profile_path}")
+        #else:
+        #    print(f"profilesフォルダの削除に失敗しました：{portable_profile_path}")
+        #    You might want to handle this failure case appropriately
     
-    # 上書き許可でコピー
-    shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
-    print(f"profilesフォルダを初期化完了しました：{portable_profile_path}")
+        # 上書き許可でコピー
+        shutil.copytree(source_path, portable_profile_path, dirs_exist_ok=True)
+        print(f"profilesフォルダを初期化完了しました：{portable_profile_path}")
  
-
     if selected_version == 'インストール版':
         exeQGIS = auth.get_associated_app('qgs')
     else:
@@ -351,4 +338,5 @@ if __name__ == "__main__":
         main()
     else:
         print("ログインに失敗しました。")
+
    
