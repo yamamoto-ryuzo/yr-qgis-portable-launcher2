@@ -255,11 +255,11 @@ def main():
     portable_profile_path = qgisconfig_folder
     print (f"実行・ポータブルprofilesフォルダ:{portable_profile_path}")  
 
-    source_path = os.path.abspath('./qgisconfig')
+    source_path = os.path.abspath('../portable_profile')
     print (f"配布用・ポータブルprofilesフォルダ:{source_path}")        
     # ポータブルプロファイルが存在しない場合にコピーする
     # 起動時に　'profile強制更新'　を選択
-    if not os.path.exists(portable_profile_path) or (selected_profile == 'profile強制更新'):
+    if not os.path.exists(os.path.join(portable_profile_path,'profiles','portable')) or (selected_profile == 'profile強制更新'):
         print(f"profilesフォルダを初期化します：{portable_profile_path}")
         
         # Force delete the directory

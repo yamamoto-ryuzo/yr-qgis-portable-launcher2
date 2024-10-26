@@ -49,13 +49,20 @@ class LoginApp:
         tk.Label(self.master, text="バージョン選択:").pack()
         self.version_var = tk.StringVar()
         self.version_combo = ttk.Combobox(self.master, textvariable=self.version_var)
+        version_combo_values = list(self.version_combo['values'])
         print (f"インストール版の確認：{get_associated_app('qgs')}")
-        if get_associated_app('qgs') != '':
-            self.version_combo['values'] = ('インストール版', 'ポータブル版')
-            self.version_combo.set('インストール版')  # デフォルト値
-        else:
-            self.version_combo['values'] = ('ポータブル版')
+        # カレントディレクトリ内のファイル・フォルダ一覧を取得
+        contents = os.listdir()
+        # QGISで始まるフォルダを探す
+        qgis_folders = [item for item in contents if item.startswith('QGIS') and os.path.isdir(item)]
+        if qgis_folders:
+            print("QGISで始まるフォルダが見つかりました:")
+            version_combo_values.append('ポータブル版')
             self.version_combo.set('ポータブル版')  # デフォルト値
+        if get_associated_app('qgs') != '':
+            version_combo_values.append('インストール版')
+            self.version_combo.set('インストール版')  # デフォルト値
+        self.version_combo['values'] = version_combo_values
         self.version_combo.pack()
         self.version_combo.bind('<Return>', self.focus_profile_combo)
 
