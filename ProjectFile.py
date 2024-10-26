@@ -236,6 +236,12 @@ def main():
     ################
 
     # カレントフォルダをQGISのインストールフォルダに設定
+    # ディレクトリが存在しない場合、作成する
+    if not os.path.exists(qgis_install_dir):
+        os.makedirs(qgis_install_dir)
+        print(f"ディレクトリを作成しました: {qgis_install_dir}")
+    else:
+        print(f"ディレクトリは既に存在します: {qgis_install_dir}")
     os.chdir(qgis_install_dir)
 
     ##############################
